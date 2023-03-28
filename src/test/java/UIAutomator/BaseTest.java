@@ -27,10 +27,11 @@ public class BaseTest {
         service = new AppiumServiceBuilder().withAppiumJS(serverPath).withIPAddress("127.0.0.1").usingPort(4723).build();
         service.start(); //Start appium server
         UiAutomator2Options options = new UiAutomator2Options();
-        options.setDeviceName("Toyinemulator");
+        options.setDeviceName("samsung SM-A325F");
+        options.setPlatformVersion("13.0");
+        options.setUdid("emulator-5554");
         options.setApp("/Users/HP/Documents/Java_with_Rahul/UIAutomator/src/test/java/resources/resources/ApiDemos-debug.apk");
         options.autoGrantPermissions();
-
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
@@ -55,6 +56,14 @@ public class BaseTest {
                     "percent", 3.0
             ));
         }while(canScrollMore == true);
+    }
+
+    public void SwipeAction(WebElement el, String direction) {
+        ((JavascriptExecutor) driver).executeScript("mobile: swipeGesture", ImmutableMap.of(
+                "elementId", ((RemoteWebElement)el).getId(),
+                "direction", direction,
+                "percent", 0.75
+        ));
     }
 
     @AfterClass
